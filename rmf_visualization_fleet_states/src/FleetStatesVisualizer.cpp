@@ -111,6 +111,16 @@ FleetStatesVisualizer::FleetStatesVisualizer(const rclcpp::NodeOptions &options)
             body_marker.color.g = 0.0;
             body_marker.color.b = 0.0;
             body_marker.color.a = 0.0;
+          } else if (fleet_name == "boxcleaner") {
+            body_marker.type = body_marker.CUBE;
+            body_marker.type = body_marker.MESH_RESOURCE;
+            body_marker.mesh_use_embedded_materials = true;
+            body_marker.mesh_resource = "package://box_bot_description/meshes/boxcleaner.dae";
+            // TODO(YV): Get the color to match that of the navigation graph
+            body_marker.color.r = 0.0;
+            body_marker.color.g = 0.0;
+            body_marker.color.b = 0.0;
+            body_marker.color.a = 0.0;
           } else if (fleet_name == "dummy") {
             body_marker.type = body_marker.CUBE;
             body_marker.type = body_marker.MESH_RESOURCE;
@@ -170,6 +180,20 @@ FleetStatesVisualizer::FleetStatesVisualizer(const rclcpp::NodeOptions &options)
             text_marker.scale.z = radius;
             text_marker.color.r = 1.0;
             text_marker.color.g = 0.0;
+            text_marker.color.b = 0.0;
+            text_marker.color.a = 1.0;
+
+            marker_array.markers.push_back(std::move(text_marker));
+            marker_array.markers.push_back(std::move(body_marker));
+          } else if (fleet_name == "boxcleaner") {
+            auto text_marker = body_marker;
+            text_marker.ns = "name";
+            text_marker.type = text_marker.TEXT_VIEW_FACING;
+            set_text_pose(loc, radius, text_marker);
+            text_marker.text = state.name;
+            text_marker.scale.z = radius;
+            text_marker.color.r = 1.0;
+            text_marker.color.g = 1.0;
             text_marker.color.b = 0.0;
             text_marker.color.a = 1.0;
 
